@@ -25,3 +25,6 @@
 的一些属性（因为kobject要嵌入到这些复杂的结构体中），进而影响驱动的行为。但是
 有些简单的设备完全可以通过属性文件表示，如cubietruck的led操作就是通过sysfs
 属性文件进行的。
+
+3.kobject_rename(obj,new_name);并没有成功，也就是对kobj_name文件的写并没有成功？
+为什么呢？？
