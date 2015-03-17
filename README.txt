@@ -30,3 +30,9 @@
 为什么呢？？
 
 4.obj1 = kzalloc(sizeof(struct my_kobj), GFP_KERNEL);并没有对kzalloc结果进行检查
+
+
+5.某些对应关系。例如my_sysfs_ops其实与源码中kobj_sysfs_ops是一样的，所以
+struct attribute所嵌入的结构体要与my_kobj_attr_show中
+container_of(attr, struct kobj_attribute, attr);中的struct kobj_attribute类型
+要一致，当然my_sysfs_ops完全可以不调用struct attribute所嵌入的结构体中的操作。
