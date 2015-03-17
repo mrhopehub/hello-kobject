@@ -28,3 +28,5 @@
 
 3.kobject_rename(obj,new_name);并没有成功，也就是对kobj_name文件的写并没有成功？
 为什么呢？？
+
+4.obj1 = kzalloc(sizeof(struct my_kobj), GFP_KERNEL);并没有对kzalloc结果进行检查
