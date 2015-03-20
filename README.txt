@@ -44,3 +44,13 @@ kobj_type结构体中的default_attrs并不一定包括kobject对应目录下的所有属性文件。
 
 所以要动态添加attr属性可以通过sysfs_create_file接口来实现。这样看来的话kobj_type
 只是相当于定义了sysfs_ops、release函数。
+
+就像core.c中在device_add中就是通过device_create_file（对sysfs_create_file的简单
+封装，相当于sysfs层的添加文件函数。）添加uevent_attr、devt_attr等属性的。而不是通过
+定义default_attrs实现的。
+
+另外一个问题，所有设备的uevent_attr、devt_attr都一样吗？？或者说每个设备的对应
+devt_attr属性文件读取设备号的代码都一样吗？？
+答案是肯定的，都是在dev_attr_show中由kobject获得对应device、由attribute获得对应的
+device_attribute，然后调用device_attribute的show函数（传入获得的device），show函数
+通过传入的device得到devt。总体的思想就是通过一层一层的container_of获得对应的数据。
