@@ -77,6 +77,16 @@ struct attribute *my_attrs[] = {
 	&kobj_val_attr.attr,
 	NULL,
 };
+ssize_t test_show(struct kobject *obj, struct kobj_attribute *attr, char *buffer)
+{
+	printk("用来测试非default属性的添加！\n");
+	return 0;
+}
+struct kobj_attribute kobj_test_attr =
+{
+	.attr	= {.name = "this is not default attr",0444},
+	.show	= test_show,
+};
 static ssize_t my_kobj_attr_show(struct kobject *kobj, struct attribute *attr,
 			      char *buf)
 {
@@ -120,6 +130,7 @@ static int __init hello_kobject_init(void)
 	obj1 = kzalloc(sizeof(struct my_kobj), GFP_KERNEL);
 	kobject_init_and_add(&obj1->kobj, &my_ktype, NULL, "mykobj1");
 	obj1->val = 0;
+	sysfs_create_file(&obj1->kobj, &kobj_test_attr.attr);
 	return 0;
 }
 static void __exit hello_kobject_exit(void)
