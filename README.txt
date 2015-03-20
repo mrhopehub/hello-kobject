@@ -36,3 +36,11 @@
 struct attribute所嵌入的结构体要与my_kobj_attr_show中
 container_of(attr, struct kobj_attribute, attr);中的struct kobj_attribute类型
 要一致，当然my_sysfs_ops完全可以不调用struct attribute所嵌入的结构体中的操作。
+
+第二次提交说明：
+kobj_type结构体中的default_attrs并不一定包括kobject对应目录下的所有属性文件。
+也就是在add kobject之前kobj_type的default_attrs并不用包括所有属性，但是（kobject.h）
+又没有动态添加attr到kobject的接口。
+
+所以要动态添加attr属性可以通过sysfs_create_file接口来实现。这样看来的话kobj_type
+只是相当于定义了sysfs_ops、release函数。
